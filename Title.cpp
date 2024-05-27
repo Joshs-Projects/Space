@@ -20,11 +20,12 @@ GameScreen TitleScreen::renderTitleScreen(int ScreenWidth, int ScreenHeight){
     BeginDrawing();
     ClearBackground(RAYWHITE);
     DrawText(TextFormat("FPS: %d", GetFPS()), ScreenWidth - 190, 15, 10, BLACK);
-    EndDrawing();
+
 
     for(int i = 0; i < allButtons.size(); i++){
         allButtons[i].drawButton();
     }
+    EndDrawing();
 
     EnableEventWaiting();
 
@@ -36,11 +37,11 @@ GameScreen TitleScreen::renderTitleScreen(int ScreenWidth, int ScreenHeight){
                 DisableEventWaiting();
                 DisableCursor();
                 return GAMEPLAY;
+            } else {
+                //No collision
             }
         }
-    }
-
-    if (IsKeyPressed(KEY_ENTER)){
+    } else if (IsKeyPressed(KEY_ENTER)){
         HideCursor();
         DisableEventWaiting();
         return GAMEPLAY;
@@ -87,17 +88,18 @@ bool Button::detectCollision(Vector2 mouseXY) {
         return true;
 
     }
+    std::cout << "NO COLLISION";
     return false;
 }
 
 bool Button::drawButton() {
-    BeginDrawing();
+    //BeginDrawing();
 
     ClearBackground(RAYWHITE);
 
     DrawRectangle(xPos, yPos, width, height, BLUE);
     DrawText(text, xPosText, yPosText, fontSize, BLACK);
 
-    EndDrawing();
+    //EndDrawing();
     return true;
 }
