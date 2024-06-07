@@ -25,6 +25,12 @@
 },
 {
   "directory": "C:/Users/Josh/CLionProjects/Space/cmake-build-debug",
+  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\Player.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\Player.cpp",
+  "file": "C:\\Users\\Josh\\CLionProjects\\Space\\Player.cpp",
+  "output": "CMakeFiles\\Space.dir\\Player.cpp.obj"
+},
+{
+  "directory": "C:/Users/Josh/CLionProjects/Space/cmake-build-debug",
   "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\gcc.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -D_CRT_SECURE_NO_WARNINGS -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -isystem C:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -fdiagnostics-color=always -o _deps\\raylib-build\\raylib\\CMakeFiles\\raylib.dir\\rcore.c.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\cmake-build-debug\\_deps\\raylib-src\\src\\rcore.c",
   "file": "C:\\Users\\Josh\\CLionProjects\\Space\\cmake-build-debug\\_deps\\raylib-src\\src\\rcore.c",
   "output": "_deps\\raylib-build\\raylib\\CMakeFiles\\raylib.dir\\rcore.c.obj"

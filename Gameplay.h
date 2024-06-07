@@ -18,6 +18,9 @@ private:
     Camera camera;
     int cameraMode;
 
+    bool tethered;
+    bool drawDeveloperTools;
+
 public:
     Gameplay(int screenWidth, int screenHeight);
     GameScreen Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLUMNS], Color colours[MAX_COLUMNS]);

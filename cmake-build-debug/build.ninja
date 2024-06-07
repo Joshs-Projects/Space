@@ -81,6 +81,14 @@ build CMakeFiles/Space.dir/structures.cpp.obj: CXX_COMPILER__Space_unscanned_Deb
   OBJECT_DIR = CMakeFiles\Space.dir
   OBJECT_FILE_DIR = CMakeFiles\Space.dir
 
+build CMakeFiles/Space.dir/Player.cpp.obj: CXX_COMPILER__Space_unscanned_Debug C$:/Users/Josh/CLionProjects/Space/Player.cpp || cmake_object_order_depends_target_Space
+  DEFINES = -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP
+  DEP_FILE = CMakeFiles\Space.dir\Player.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include
+  OBJECT_DIR = CMakeFiles\Space.dir
+  OBJECT_FILE_DIR = CMakeFiles\Space.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Space
@@ -89,7 +97,7 @@ build CMakeFiles/Space.dir/structures.cpp.obj: CXX_COMPILER__Space_unscanned_Deb
 #############################################
 # Link the executable Space.exe
 
-build Space.exe: CXX_EXECUTABLE_LINKER__Space_Debug CMakeFiles/Space.dir/main.cpp.obj CMakeFiles/Space.dir/Title.cpp.obj CMakeFiles/Space.dir/Gameplay.cpp.obj CMakeFiles/Space.dir/structures.cpp.obj | _deps/raylib-build/raylib/libraylib.a _deps/raylib-build/raylib/external/glfw/src/libglfw3.a || _deps/raylib-build/raylib/external/glfw/src/libglfw3.a _deps/raylib-build/raylib/libraylib.a
+build Space.exe: CXX_EXECUTABLE_LINKER__Space_Debug CMakeFiles/Space.dir/main.cpp.obj CMakeFiles/Space.dir/Title.cpp.obj CMakeFiles/Space.dir/Gameplay.cpp.obj CMakeFiles/Space.dir/structures.cpp.obj CMakeFiles/Space.dir/Player.cpp.obj | _deps/raylib-build/raylib/libraylib.a _deps/raylib-build/raylib/external/glfw/src/libglfw3.a || _deps/raylib-build/raylib/external/glfw/src/libglfw3.a _deps/raylib-build/raylib/libraylib.a
   FLAGS = -g
   LINK_LIBRARIES = _deps/raylib-build/raylib/libraylib.a  -lopengl32  -lglu32  -lwinmm  _deps/raylib-build/raylib/external/glfw/src/libglfw3.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Space.dir

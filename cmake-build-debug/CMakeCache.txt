@@ -417,15 +417,6 @@ USE_EXTERNAL_GLFW:STRING=OFF
 WITH_PIC:BOOL=OFF
 
 //Value Computed by CMake
-example_BINARY_DIR:STATIC=C:/Users/Josh/CLionProjects/Space/cmake-build-debug
-
-//Value Computed by CMake
-example_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-example_SOURCE_DIR:STATIC=C:/Users/Josh/CLionProjects/Space
-
-//Value Computed by CMake
 raylib_BINARY_DIR:STATIC=C:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-build/raylib
 
 //The directory containing a CMake configuration file for raylib.

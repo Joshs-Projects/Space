@@ -24,6 +24,9 @@ Gameplay::Gameplay(int screenWidth, int screenHeight){
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
     cameraMode = CAMERA_FIRST_PERSON;
+
+    this->tethered = true;
+    this->drawDeveloperTools = true;
 }
 
 GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLUMNS], Color colours[MAX_COLUMNS]) {
@@ -53,6 +56,16 @@ GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLU
         cameraMode = CAMERA_ORBITAL;
         camera.up = (Vector3){ 0.0f, 1.0f, 0.0f }; // Reset roll
     }
+
+    if (IsKeyPressed(KEY_FIVE)){
+        tethered = !tethered;
+    }
+
+    if (IsKeyPressed(96)){
+        drawDeveloperTools = !drawDeveloperTools;
+    }
+
+    std::cout << GetKeyPressed() << std::endl;
 
     // Switch camera projection
     if (IsKeyPressed(KEY_P))
@@ -111,7 +124,7 @@ GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLU
 
     if (IsKeyPressed(KEY_ESCAPE)){
         return QUIT;
-    } else if (IsKeyPressed(KEY_SPACE)){
+    } else if (IsKeyPressed(KEY_T)){
         return TITLE;
     }
 
@@ -130,7 +143,8 @@ GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLU
                             (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))*0.1f,
                             (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))*0.1f -   // Move right-left
                             (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))*0.1f,
-                            0.0f                                                // Move up-down
+                            (IsKeyDown(KEY_SPACE) && !tethered)*0.1f -                    // Move up-down
+                            (IsKeyDown(KEY_LEFT_CONTROL) && !tethered)*0.1f
                     },
                     (Vector3){
                             GetMouseDelta().x*0.05f,                            // Rotation: yaw
@@ -150,10 +164,12 @@ GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLU
 
     BeginMode3D(camera);
 
+    //Draws the walls and the floor
     DrawPlane((Vector3){ 0.0f, 0.0f, 0.0f }, (Vector2){ 32.0f, 32.0f }, LIGHTGRAY); // Draw ground
     DrawCube((Vector3){ -16.0f, 2.5f, 0.0f }, 1.0f, 5.0f, 32.0f, BLUE);     // Draw a blue wall
     DrawCube((Vector3){ 16.0f, 2.5f, 0.0f }, 1.0f, 5.0f, 32.0f, LIME);      // Draw a green wall
     DrawCube((Vector3){ 0.0f, 2.5f, 16.0f }, 32.0f, 5.0f, 1.0f, GOLD);      // Draw a yellow wall
+    DrawCube((Vector3){ 0.0f, 2.5f, -16.0f }, 32.0f, 5.0f, 1.0f, PINK);      // Draw a yellow wall
 
     // Draw some cubes around
     for (int i = 0; i < MAX_COLUMNS; i++)
@@ -171,35 +187,45 @@ GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLU
 
     EndMode3D();
 
-    // Draw info boxes
-    DrawRectangle(5, 5, 330, 100, Fade(SKYBLUE, 0.5f));
-    DrawRectangleLines(5, 5, 330, 100, BLUE);
 
-    DrawText("Camera controls:", 15, 15, 10, BLACK);
-    DrawText("- Move keys: W, A, S, D, Space, Left-Ctrl", 15, 30, 10, BLACK);
-    DrawText("- Look around: arrow keys or mouse", 15, 45, 10, BLACK);
-    DrawText("- Camera mode keys: 1, 2, 3, 4", 15, 60, 10, BLACK);
-    DrawText("- Zoom keys: num-plus, num-minus or mouse scroll", 15, 75, 10, BLACK);
-    DrawText("- Camera projection key: P", 15, 90, 10, BLACK);
+    if (drawDeveloperTools) {
+        // Draw info boxes
+        DrawRectangle(5, 5, 330, 100, Fade(SKYBLUE, 0.5f));
+        DrawRectangleLines(5, 5, 330, 100, BLUE);
 
-    DrawRectangle(currentScreenWidth - 200, 5, 195, 160, Fade(SKYBLUE, 0.5f));
-    DrawRectangleLines(currentScreenWidth - 200, 5, 195, 160, BLUE);
+        DrawText("Camera controls:", 15, 15, 10, BLACK);
+        DrawText("- Move keys: W, A, S, D, Space, Left-Ctrl", 15, 30, 10, BLACK);
+        DrawText("- Look around: arrow keys or mouse", 15, 45, 10, BLACK);
+        DrawText("- Camera mode keys: 1, 2, 3, 4", 15, 60, 10, BLACK);
+        DrawText("- Zoom keys: num-plus, num-minus or mouse scroll", 15, 75, 10, BLACK);
+        DrawText("- Camera projection key: P", 15, 90, 10, BLACK);
 
-    DrawText(TextFormat("FPS: %d", GetFPS()), currentScreenWidth - 190, 15, 10, BLACK);
-    DrawText(TextFormat("Render Size/Screen Size:"), currentScreenWidth - 190, 30, 10, BLACK);
-    DrawText(TextFormat("- Width: %d/%d", GetRenderWidth(), currentScreenWidth), currentScreenWidth - 190, 45, 10, BLACK);
-    DrawText(TextFormat("- Height: %d/%d", GetRenderHeight(), currentScreenHeight),currentScreenWidth - 190, 60, 10, BLACK);
-    DrawText("Camera status:", currentScreenWidth - 190, 75, 10, BLACK);
-    DrawText(TextFormat("- Mode: %s", (cameraMode == CAMERA_FREE) ? "FREE" :
-                                      (cameraMode == CAMERA_FIRST_PERSON) ? "FIRST_PERSON" :
-                                      (cameraMode == CAMERA_THIRD_PERSON) ? "THIRD_PERSON" :
-                                      (cameraMode == CAMERA_ORBITAL) ? "ORBITAL" : "CUSTOM"), currentScreenWidth - 190, 90, 10, BLACK);
-    DrawText(TextFormat("- Projection: %s", (camera.projection == CAMERA_PERSPECTIVE) ? "PERSPECTIVE" :
-                                            (camera.projection == CAMERA_ORTHOGRAPHIC) ? "ORTHOGRAPHIC" : "CUSTOM"), currentScreenWidth - 190, 105, 10, BLACK);
-    DrawText(TextFormat("- Position: (%06.3f, %06.3f, %06.3f)", camera.position.x, camera.position.y, camera.position.z), currentScreenWidth - 190, 120, 10, BLACK);
-    DrawText(TextFormat("- Target: (%06.3f, %06.3f, %06.3f)", camera.target.x, camera.target.y, camera.target.z), currentScreenWidth - 190, 135, 10, BLACK);
-    DrawText(TextFormat("- Up: (%06.3f, %06.3f, %06.3f)", camera.up.x, camera.up.y, camera.up.z), currentScreenWidth - 190, 150, 10, BLACK);
+        DrawRectangle(currentScreenWidth - 200, 5, 195, 175, Fade(SKYBLUE, 0.5f));
+        DrawRectangleLines(currentScreenWidth - 200, 5, 195, 175, BLUE);
 
+        DrawText(TextFormat("FPS: %d", GetFPS()), currentScreenWidth - 190, 15, 10, BLACK);
+        DrawText(TextFormat("Render Size/Screen Size:"), currentScreenWidth - 190, 30, 10, BLACK);
+        DrawText(TextFormat("- Width: %d/%d", GetRenderWidth(), currentScreenWidth), currentScreenWidth - 190, 45, 10,
+                 BLACK);
+        DrawText(TextFormat("- Height: %d/%d", GetRenderHeight(), currentScreenHeight), currentScreenWidth - 190, 60,
+                 10, BLACK);
+        DrawText("Camera status:", currentScreenWidth - 190, 75, 10, BLACK);
+        DrawText(TextFormat("- Mode: %s", (cameraMode == CAMERA_FREE) ? "FREE" :
+                                          (cameraMode == CAMERA_FIRST_PERSON) ? "FIRST_PERSON" :
+                                          (cameraMode == CAMERA_THIRD_PERSON) ? "THIRD_PERSON" :
+                                          (cameraMode == CAMERA_ORBITAL) ? "ORBITAL" : "CUSTOM"),
+                 currentScreenWidth - 190, 90, 10, BLACK);
+        DrawText(TextFormat("- Projection: %s", (camera.projection == CAMERA_PERSPECTIVE) ? "PERSPECTIVE" :
+                                                (camera.projection == CAMERA_ORTHOGRAPHIC) ? "ORTHOGRAPHIC" : "CUSTOM"),
+                 currentScreenWidth - 190, 105, 10, BLACK);
+        DrawText(TextFormat("- Position: (%06.3f, %06.3f, %06.3f)", camera.position.x, camera.position.y,
+                            camera.position.z), currentScreenWidth - 190, 120, 10, BLACK);
+        DrawText(TextFormat("- Target: (%06.3f, %06.3f, %06.3f)", camera.target.x, camera.target.y, camera.target.z),
+                 currentScreenWidth - 190, 135, 10, BLACK);
+        DrawText(TextFormat("- Up: (%06.3f, %06.3f, %06.3f)", camera.up.x, camera.up.y, camera.up.z),
+                 currentScreenWidth - 190, 150, 10, BLACK);
+        DrawText(TextFormat("- Tethered: (%d)", tethered), currentScreenWidth - 190, 165, 10, BLACK);
+    }
 
     EndDrawing();
 

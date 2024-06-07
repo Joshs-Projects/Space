@@ -7,6 +7,6 @@
 
 #define MAX_COLUMNS 20
 
-typedef enum GameScreen {TITLE, GAMEPLAY, QUIT};
+enum GameScreen {TITLE, GAMEPLAY, QUIT};
 
 #endif //SPACE_STRUCTURES_H
