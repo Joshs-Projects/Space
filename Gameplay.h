@@ -6,6 +6,7 @@
 #define SPACE_GAMEPLAY_H
 
 #include "structures.h"
+#include "player.h"
 
 
 class Gameplay {
@@ -15,11 +16,14 @@ private:
     int currentScreenWidth;
     int currentScreenHeight;
 
-    Camera camera;
+    /*Camera camera;
     int cameraMode;
 
     bool tethered;
+     */
     bool drawDeveloperTools;
+
+    Player player;
 
 public:
     Gameplay(int screenWidth, int screenHeight);

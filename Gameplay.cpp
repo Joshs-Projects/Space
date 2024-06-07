@@ -15,17 +15,8 @@ Gameplay::Gameplay(int screenWidth, int screenHeight){
     currentScreenWidth = screenWidth;
     currentScreenHeight = screenHeight;
 
-    // Define the camera to look into our 3d world (position, target, up vector)
-    camera = { 0 };
-    camera.position = (Vector3){ 0.0f, 2.0f, 4.0f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 2.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
-    camera.fovy = 60.0f;                                // Camera field-of-view Y
-    camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
+    player = Player();
 
-    cameraMode = CAMERA_FIRST_PERSON;
-
-    this->tethered = true;
     this->drawDeveloperTools = true;
 }
 
@@ -35,64 +26,36 @@ GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLU
     // Switch camera mode
     if (IsKeyPressed(KEY_ONE))
     {
-        cameraMode = CAMERA_FREE;
-        camera.up = (Vector3){ 0.0f, 1.0f, 0.0f }; // Reset roll
+        player.changeToFreeCam();
     }
 
     if (IsKeyPressed(KEY_TWO))
     {
-        cameraMode = CAMERA_FIRST_PERSON;
-        camera.up = (Vector3){ 0.0f, 1.0f, 0.0f }; // Reset roll
+        player.changeToFirstPerson();
     }
 
     if (IsKeyPressed(KEY_THREE))
     {
-        cameraMode = CAMERA_THIRD_PERSON;
-        camera.up = (Vector3){ 0.0f, 1.0f, 0.0f }; // Reset roll
+        player.changeToThirdPerson();
     }
 
     if (IsKeyPressed(KEY_FOUR))
     {
-        cameraMode = CAMERA_ORBITAL;
-        camera.up = (Vector3){ 0.0f, 1.0f, 0.0f }; // Reset roll
+        player.changeToOrbital();
     }
 
     if (IsKeyPressed(KEY_FIVE)){
-        tethered = !tethered;
+        player.changeIfTethered();
     }
 
     if (IsKeyPressed(96)){
         drawDeveloperTools = !drawDeveloperTools;
     }
 
-    std::cout << GetKeyPressed() << std::endl;
-
     // Switch camera projection
     if (IsKeyPressed(KEY_P))
     {
-        if (camera.projection == CAMERA_PERSPECTIVE)
-        {
-            // Create isometric view
-            cameraMode = CAMERA_THIRD_PERSON;
-            // Note: The target distance is related to the render distance in the orthographic projection
-            camera.position = (Vector3){ 0.0f, 2.0f, -100.0f };
-            camera.target = (Vector3){ 0.0f, 2.0f, 0.0f };
-            camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
-            camera.projection = CAMERA_ORTHOGRAPHIC;
-            camera.fovy = 20.0f; // near plane width in CAMERA_ORTHOGRAPHIC
-            CameraYaw(&camera, -135 * DEG2RAD, true);
-            CameraPitch(&camera, -45 * DEG2RAD, true, true, false);
-        }
-        else if (camera.projection == CAMERA_ORTHOGRAPHIC)
-        {
-            // Reset to default view
-            cameraMode = CAMERA_THIRD_PERSON;
-            camera.position = (Vector3){ 0.0f, 2.0f, 10.0f };
-            camera.target = (Vector3){ 0.0f, 2.0f, 0.0f };
-            camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
-            camera.projection = CAMERA_PERSPECTIVE;
-            camera.fovy = 60.0f;
-        }
+        player.switchCameraPerspective();
     }
 
     // Switch To Full Screen
@@ -128,31 +91,7 @@ GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLU
         return TITLE;
     }
 
-    // Update camera computes movement internally depending on the camera mode
-    // Some default standard keyboard/mouse inputs are hardcoded to simplify use
-    // For advance camera controls, it's reecommended to compute camera movement manually
-    //UpdateCamera(&camera, cameraMode);                  // Update camera
-
-
-    // Camera PRO usage example (EXPERIMENTAL)
-    // This new camera function allows custom movement/rotation values to be directly provided
-    // as input parameters, with this approach, rcamera module is internally independent of raylib inputs
-    UpdateCameraPro(&camera,
-                    (Vector3){
-                            (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))*0.1f -      // Move forward-backward
-                            (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))*0.1f,
-                            (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))*0.1f -   // Move right-left
-                            (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))*0.1f,
-                            (IsKeyDown(KEY_SPACE) && !tethered)*0.1f -                    // Move up-down
-                            (IsKeyDown(KEY_LEFT_CONTROL) && !tethered)*0.1f
-                    },
-                    (Vector3){
-                            GetMouseDelta().x*0.05f,                            // Rotation: yaw
-                            GetMouseDelta().y*0.05f,                            // Rotation: pitch
-                            (IsKeyDown(KEY_E))*0.1f -                     // Rotation: roll
-                            (IsKeyDown(KEY_Q))*0.1f
-                    },
-                    GetMouseWheelMove()*2.0f);                              // Move to target (zoom)
+    player.updateCamera();
 
     //----------------------------------------------------------------------------------
 
@@ -162,7 +101,8 @@ GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLU
 
     ClearBackground(RAYWHITE);
 
-    BeginMode3D(camera);
+    //BeginMode3D(camera);
+    BeginMode3D(player.getCamera());
 
     //Draws the walls and the floor
     DrawPlane((Vector3){ 0.0f, 0.0f, 0.0f }, (Vector2){ 32.0f, 32.0f }, LIGHTGRAY); // Draw ground
@@ -178,15 +118,13 @@ GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLU
         DrawCubeWires(positions[i], 2.0f, heights[i], 2.0f, MAROON);
     }
 
-    // Draw player cube
-    if (cameraMode == CAMERA_THIRD_PERSON)
+    if (player.getCameraMode() == CAMERA_THIRD_PERSON)
     {
-        DrawCube(camera.target, 0.5f, 0.5f, 0.5f, PURPLE);
-        DrawCubeWires(camera.target, 0.5f, 0.5f, 0.5f, DARKPURPLE);
+        DrawCube(player.getCamera().target, 0.5f, 0.5f, 0.5f, PURPLE);
+        DrawCubeWires(player.getCamera().target, 0.5f, 0.5f, 0.5f, DARKPURPLE);
     }
 
     EndMode3D();
-
 
     if (drawDeveloperTools) {
         // Draw info boxes
@@ -210,21 +148,21 @@ GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLU
         DrawText(TextFormat("- Height: %d/%d", GetRenderHeight(), currentScreenHeight), currentScreenWidth - 190, 60,
                  10, BLACK);
         DrawText("Camera status:", currentScreenWidth - 190, 75, 10, BLACK);
-        DrawText(TextFormat("- Mode: %s", (cameraMode == CAMERA_FREE) ? "FREE" :
-                                          (cameraMode == CAMERA_FIRST_PERSON) ? "FIRST_PERSON" :
-                                          (cameraMode == CAMERA_THIRD_PERSON) ? "THIRD_PERSON" :
-                                          (cameraMode == CAMERA_ORBITAL) ? "ORBITAL" : "CUSTOM"),
+        DrawText(TextFormat("- Mode: %s", (player.getCameraMode() == CAMERA_FREE) ? "FREE" :
+                                          (player.getCameraMode() == CAMERA_FIRST_PERSON) ? "FIRST_PERSON" :
+                                          (player.getCameraMode() == CAMERA_THIRD_PERSON) ? "THIRD_PERSON" :
+                                          (player.getCameraMode() == CAMERA_ORBITAL) ? "ORBITAL" : "CUSTOM"),
                  currentScreenWidth - 190, 90, 10, BLACK);
-        DrawText(TextFormat("- Projection: %s", (camera.projection == CAMERA_PERSPECTIVE) ? "PERSPECTIVE" :
-                                                (camera.projection == CAMERA_ORTHOGRAPHIC) ? "ORTHOGRAPHIC" : "CUSTOM"),
+        DrawText(TextFormat("- Projection: %s", (player.getCamera().projection == CAMERA_PERSPECTIVE) ? "PERSPECTIVE" :
+                                                (player.getCamera().projection == CAMERA_ORTHOGRAPHIC) ? "ORTHOGRAPHIC" : "CUSTOM"),
                  currentScreenWidth - 190, 105, 10, BLACK);
-        DrawText(TextFormat("- Position: (%06.3f, %06.3f, %06.3f)", camera.position.x, camera.position.y,
-                            camera.position.z), currentScreenWidth - 190, 120, 10, BLACK);
-        DrawText(TextFormat("- Target: (%06.3f, %06.3f, %06.3f)", camera.target.x, camera.target.y, camera.target.z),
+        DrawText(TextFormat("- Position: (%06.3f, %06.3f, %06.3f)", player.getCamera().position.x, player.getCamera().position.y,
+                            player.getCamera().position.z), currentScreenWidth - 190, 120, 10, BLACK);
+        DrawText(TextFormat("- Target: (%06.3f, %06.3f, %06.3f)", player.getCamera().target.x, player.getCamera().target.y, player.getCamera().target.z),
                  currentScreenWidth - 190, 135, 10, BLACK);
-        DrawText(TextFormat("- Up: (%06.3f, %06.3f, %06.3f)", camera.up.x, camera.up.y, camera.up.z),
+        DrawText(TextFormat("- Up: (%06.3f, %06.3f, %06.3f)", player.getCamera().up.x, player.getCamera().up.y, player.getCamera().up.z),
                  currentScreenWidth - 190, 150, 10, BLACK);
-        DrawText(TextFormat("- Tethered: (%d)", tethered), currentScreenWidth - 190, 165, 10, BLACK);
+        DrawText(TextFormat("- Tethered: (%d)", player.getIfTethered()), currentScreenWidth - 190, 165, 10, BLACK);
     }
 
     EndDrawing();
