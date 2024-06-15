@@ -37,6 +37,10 @@ add_executable(${PROJECT_NAME} main.cpp
         structures.h
         Player.cpp
         Player.h
+        Collidable.cpp
+        Collidable.h
+        Cuboid.cpp
+        Cuboid.h
 )
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)

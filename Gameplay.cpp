@@ -2,25 +2,22 @@
 // Created by Josh on 13/05/2024.
 //
 
-#include "raylib.h"
-#include "rcamera.h"
-
-#include <iostream>
-
 #include "Gameplay.h"
 
-Gameplay::Gameplay(int screenWidth, int screenHeight){
+
+Gameplay::Gameplay(int screenWidth, int screenHeight) {
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
     currentScreenWidth = screenWidth;
     currentScreenHeight = screenHeight;
 
-    player = Player();
+    //player = Player(cuboid, Vector3(), Vector3());
 
     this->drawDeveloperTools = true;
 }
 
-GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLUMNS], Color colours[MAX_COLUMNS]) {
+//GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLUMNS], Color colours[MAX_COLUMNS]) {
+GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects){
     // Update
     //----------------------------------------------------------------------------------
     // Switch camera mode
@@ -93,6 +90,15 @@ GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLU
 
     player.updateCamera();
 
+    //std::cout << "Checking Collisions!" << std::endl;
+
+    for(int i = 0; i < MAX_COLUMNS; i++) {
+        std::cout << "Checking object " << i << std::endl;
+        if (player.checkCollision(cuboidObjects[i].getBoundingBox())){
+            std::cout << "Collision with object " << i << std::endl;
+        }
+    }
+
     //----------------------------------------------------------------------------------
 
     // Draw
@@ -114,8 +120,15 @@ GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLU
     // Draw some cubes around
     for (int i = 0; i < MAX_COLUMNS; i++)
     {
-        DrawCube(positions[i], 2.0f, heights[i], 2.0f, colours[i]);
-        DrawCubeWires(positions[i], 2.0f, heights[i], 2.0f, MAROON);
+        //DrawCube(positions[i], 2.0f, heights[i], 2.0f, colours[i]);
+        //DrawCubeWires(positions[i], 2.0f, heights[i], 2.0f, MAROON);
+
+        DrawCube(cuboidObjects[i].getCollidablePosition(), cuboidObjects[i].getCollidableSize().z,
+                 cuboidObjects[i].getCollidableSize().y, cuboidObjects[i].getCollidableSize().x,
+                 cuboidObjects[i].getColour());
+        DrawCubeWires(cuboidObjects[i].getCollidablePosition(), cuboidObjects[i].getCollidableSize().z,
+                      cuboidObjects[i].getCollidableSize().y, cuboidObjects[i].getCollidableSize().x,
+                      MAROON);
     }
 
     if (player.getCameraMode() == CAMERA_THIRD_PERSON)

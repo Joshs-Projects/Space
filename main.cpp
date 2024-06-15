@@ -17,6 +17,7 @@
 #include "Title.h"
 #include "Gameplay.h"
 #include "structures.h"
+#include "Cuboid.h"
 
 
 
@@ -40,21 +41,46 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "Space");
 
+    std::vector<Cuboid> cuboidObjects = {};
+
     // Generates some random columns
-    float heights[MAX_COLUMNS] = { 0 };
+    /*float heights[MAX_COLUMNS] = { 0 };
     Vector3 positions[MAX_COLUMNS] = { 0 };
-    Color colors[MAX_COLUMNS] = { 0 };
+    Color colors[MAX_COLUMNS] = { 0 };*/
+    Color colours[MAX_COLUMNS] = {RED, BROWN, BLUE, PINK, ORANGE};
+
+    Vector3 size;
+    Vector3 position;
+    Color colour;
 
     for (int i = 0; i < MAX_COLUMNS; i++)
     {
-        heights[i] = (float)GetRandomValue(1, 12);
-        positions[i] = (Vector3){ (float)GetRandomValue(-15, 15),
+        size = (Vector3) {
+            2.0f,
+            (float)GetRandomValue(1, 12),
+            2.0f
+        };
+
+        position = (Vector3){ (float)GetRandomValue(-15, 15),
+                              size.y/2.0f,
+                              (float)GetRandomValue(-15, 15) };
+
+        colour = (Color){ (unsigned char)GetRandomValue(20, 255),
+                          (unsigned char)GetRandomValue(10, 55),
+                          30,
+                          255 };
+
+
+        cuboidObjects.emplace_back(cuboid, size, position, colours[i]);
+        //std::cout << "Colour = " << colours[i] << std::endl << "--------------------------------" << std::endl;
+        /*heights[i] = (float)GetRandomValue(1, 12);
+        position = (Vector3){ (float)GetRandomValue(-15, 15),
                                   heights[i]/2.0f,
                                   (float)GetRandomValue(-15, 15) };
         colors[i] = (Color){ (unsigned char)GetRandomValue(20, 255),
                              (unsigned char)GetRandomValue(10, 55),
                              30,
-                             255 };
+                             255 };*/
     }
 
     DisableCursor();                    // Limit cursor to relative movement inside the window
@@ -73,7 +99,8 @@ int main(void)
             }
             case GAMEPLAY:
             {
-                currentScreen = gameplay.Loop(positions, heights, colors);
+                //currentScreen = gameplay.Loop(positions, heights, colors);
+                currentScreen = gameplay.Loop(cuboidObjects);
                 break;
             }
             case QUIT:

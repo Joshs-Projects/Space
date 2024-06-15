@@ -4,7 +4,7 @@
 
 #include "Player.h"
 
-Player::Player() {
+Player::Player(shapes shape, Vector3 size, Vector3 position) : Collidable(shape, size, position) {
     // Define the camera to look into our 3d world (position, target, up vector)
     camera = { 0 };
     camera.position = (Vector3){ 0.0f, 2.0f, 4.0f };    // Camera position
@@ -90,26 +90,82 @@ int Player::switchCameraPerspective() {
     return 1;
 }
 
+int Player::updatePosition() {
+    return 0;
+}
+
+int Player::updateMovement() {
+    movement = {0,0,0};
+    //std::cout << "updating movement.x";
+    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP) ||      // Move forward-backward
+        IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)){
+        movement.x = (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))*0.1f -      // Move forward-backward
+                     (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))*0.1f;
+    }
+    //std::cout << "updating movement.y";
+    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT) ||   // Move right-left
+        IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)){
+        movement.y = (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))*0.1f -   // Move right-left
+        (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))*0.1f;
+    }
+    //std::cout << "updating movement.z";
+    if (IsKeyDown(KEY_SPACE) && !tethered ||                    // Move up-down
+        IsKeyDown(KEY_LEFT_CONTROL) && !tethered){
+        movement.z = (IsKeyDown(KEY_SPACE) && !tethered)*0.1f -                    // Move up-down
+        (IsKeyDown(KEY_LEFT_CONTROL) && !tethered)*0.1f;
+    }
+
+    //std::cout << "updated movement" << std::endl;
+
+    return 1;
+}
+
+int Player::updateRotation() {
+    rotation = {0.0,0.0, 0.0};
+    //std::cout << "updating rotation.x";
+    rotation.x = GetMouseDelta().x*0.05f;
+
+    //std::cout << "updating rotation.y";
+    rotation.y = GetMouseDelta().y*0.05f;
+
+    //std::cout << "updating rotation.z";
+    if (IsKeyDown(KEY_E) || IsKeyDown(KEY_Q)) {
+        rotation.z = (IsKeyDown(KEY_E)*0.1f -                     // Rotation: roll
+                     (IsKeyDown(KEY_Q)*0.1f));
+    }
+
+    if (IsKeyPressed(KEY_R)){
+        rotation.z = rotation.z - rotation.z;
+        std::cout << "Reset?";
+    }
+    //std::cout << "updated rotation" << std::endl;
+
+    return 1;
+
+}
+
+int Player::updateZoom() {
+    zoom = 0;
+    zoom = GetMouseWheelMove()*2.0f;
+    return 1;
+}
+
+int Player::updateAll(){
+    updatePosition();
+    updateMovement();
+    updateRotation();
+    updateZoom();
+    return 1;
+}
+
 int Player::updateCamera() {
+    //std::cout << "Trying to update" << std::endl;
+    updateAll();
+    //std::cout << "Updated" << std::endl;
     // Camera PRO usage example (EXPERIMENTAL)
     // This new camera function allows custom movement/rotation values to be directly provided
     // as input parameters, with this approach, rcamera module is internally independent of raylib inputs
-    UpdateCameraPro(&camera,
-                    (Vector3){
-                            (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))*0.1f -      // Move forward-backward
-                            (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))*0.1f,
-                            (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))*0.1f -   // Move right-left
-                            (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))*0.1f,
-                            (IsKeyDown(KEY_SPACE) && !tethered)*0.1f -                    // Move up-down
-                            (IsKeyDown(KEY_LEFT_CONTROL) && !tethered)*0.1f
-                    },
-                    (Vector3){
-                            GetMouseDelta().x*0.05f,                            // Rotation: yaw
-                            GetMouseDelta().y*0.05f,                            // Rotation: pitch
-                            (IsKeyDown(KEY_E))*0.1f -                     // Rotation: roll
-                            (IsKeyDown(KEY_Q))*0.1f
-                    },
-                    GetMouseWheelMove()*2.0f);                              // Move to target (zoom)
+    UpdateCameraPro(&camera, movement, rotation, zoom);                              // Move to target (zoom)
 
     return 1;
 }

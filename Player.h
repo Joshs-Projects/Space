@@ -9,7 +9,9 @@
 #include "rcamera.h"
 #include "iostream"
 
-class Player {
+#include "Collidable.h"
+
+class Player : public Collidable  {
 private:
     Camera camera;
     CameraMode cameraMode;
@@ -17,8 +19,22 @@ private:
     bool tethered = true;
     bool oldTethered = true;
 
+    Vector3 position;
+    Vector3 movement;
+    Vector3 rotation;
+    float zoom;
+
+    Vector3 size;
+
+    int updatePosition();
+    int updateMovement();
+    int updateRotation();
+    int updateZoom();
+
+    int updateAll();
+
 public:
-    Player();
+    Player(shapes shape, Vector3 size, Vector3 position);
     int changeToFreeCam();
     int changeToFirstPerson();
     int changeToThirdPerson();
