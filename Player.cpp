@@ -91,6 +91,10 @@ int Player::switchCameraPerspective() {
 }
 
 int Player::updatePosition() {
+    Vector3 position = {getCamera().position.x,getCamera().position.y,getCamera().position.z};
+    setCollisionPosition(position);
+    std::cout << "Player Position x= " << position.x <<  " y= " << position.y << " z= " << position.z << std::endl;
+    std::cout << "Collision Player Position x= " << position.x <<  "Collision  y= " << position.y << "Collision  z= " << position.z << std::endl;
     return 0;
 }
 
@@ -115,13 +119,15 @@ int Player::updateMovement() {
         (IsKeyDown(KEY_LEFT_CONTROL) && !tethered)*0.1f;
     }
 
+    updatePosition();
+
     //std::cout << "updated movement" << std::endl;
 
     return 1;
 }
 
 int Player::updateRotation() {
-    rotation = {0.0,0.0, 0.0};
+    rotation = {0.0,0.0,0.0};
     //std::cout << "updating rotation.x";
     rotation.x = GetMouseDelta().x*0.05f;
 
@@ -151,7 +157,7 @@ int Player::updateZoom() {
 }
 
 int Player::updateAll(){
-    updatePosition();
+    //updatePosition();
     updateMovement();
     updateRotation();
     updateZoom();

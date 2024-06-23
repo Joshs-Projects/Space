@@ -17,41 +17,36 @@ Gameplay::Gameplay(int screenWidth, int screenHeight) {
 }
 
 //GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLUMNS], Color colours[MAX_COLUMNS]) {
-GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects){
+GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects) {
     // Update
     //----------------------------------------------------------------------------------
     // Switch camera mode
-    if (IsKeyPressed(KEY_ONE))
-    {
+    if (IsKeyPressed(KEY_ONE)) {
         player.changeToFreeCam();
     }
 
-    if (IsKeyPressed(KEY_TWO))
-    {
+    if (IsKeyPressed(KEY_TWO)) {
         player.changeToFirstPerson();
     }
 
-    if (IsKeyPressed(KEY_THREE))
-    {
+    if (IsKeyPressed(KEY_THREE)) {
         player.changeToThirdPerson();
     }
 
-    if (IsKeyPressed(KEY_FOUR))
-    {
+    if (IsKeyPressed(KEY_FOUR)) {
         player.changeToOrbital();
     }
 
-    if (IsKeyPressed(KEY_FIVE)){
+    if (IsKeyPressed(KEY_FIVE)) {
         player.changeIfTethered();
     }
 
-    if (IsKeyPressed(96)){
+    if (IsKeyPressed(96)) {
         drawDeveloperTools = !drawDeveloperTools;
     }
 
     // Switch camera projection
-    if (IsKeyPressed(KEY_P))
-    {
+    if (IsKeyPressed(KEY_P)) {
         player.switchCameraPerspective();
     }
 
@@ -68,7 +63,8 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects){
             currentScreenHeight = screenHeight;
             SetWindowSize(800, 450);
             std::cout << "Screen Width: " << screenWidth << " Screen Height: " << screenHeight << "\n";
-            std::cout << "Current Screen Width: " << currentScreenWidth << " Current Screen Height: " << currentScreenHeight << "\n";
+            std::cout << "Current Screen Width: " << currentScreenWidth << " Current Screen Height: "
+                      << currentScreenHeight << "\n";
 
         } else {
             //If not at full screen
@@ -82,18 +78,26 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects){
 
     }
 
-    if (IsKeyPressed(KEY_ESCAPE)){
+    if (IsKeyPressed(KEY_ESCAPE)) {
         return QUIT;
-    } else if (IsKeyPressed(KEY_T)){
+    } else if (IsKeyPressed(KEY_T)) {
         return TITLE;
+    } else if (IsKeyPressed(KEY_ENTER)) {
+        return PAUSE;
     }
 
     player.updateCamera();
+    Vector3 a, b;
+    a = cuboidObjects[0].getBoundingBox().max;
+    b = cuboidObjects[0].getBoundingBox().min;
+
+    std::cout << "Max: x=" << a.x << " y=" << a.y << " z=" << a.z << std::endl;
+    std::cout << "Min: x=" << b.x << " y=" << b.y << " z=" << b.z << std::endl;
 
     //std::cout << "Checking Collisions!" << std::endl;
 
     for(int i = 0; i < MAX_COLUMNS; i++) {
-        std::cout << "Checking object " << i << std::endl;
+        //std::cout << "Checking object " << i << std::endl;
         if (player.checkCollision(cuboidObjects[i].getBoundingBox())){
             std::cout << "Collision with object " << i << std::endl;
         }

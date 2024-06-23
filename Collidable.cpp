@@ -39,6 +39,7 @@ int Collidable::setCollisionSize(Vector3 size){
 
 int Collidable::setCollisionPosition(Vector3 position){
     this->collidablePosition = position;
+    createBoundingBox();
     return 1;
 }
 

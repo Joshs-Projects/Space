@@ -47,7 +47,7 @@ int main(void)
     /*float heights[MAX_COLUMNS] = { 0 };
     Vector3 positions[MAX_COLUMNS] = { 0 };
     Color colors[MAX_COLUMNS] = { 0 };*/
-    Color colours[MAX_COLUMNS] = {RED, BROWN, BLUE, PINK, ORANGE};
+    Color colours[MAX_COLUMNS] = {RED , BROWN, BLUE, PINK, ORANGE};
 
     Vector3 size;
     Vector3 position;
@@ -71,7 +71,7 @@ int main(void)
                           255 };
 
 
-        cuboidObjects.emplace_back(cuboid, size, position, colours[i]);
+        cuboidObjects.emplace_back(cuboid, size, position, colours[i % MAX_COLUMNS]);
         //std::cout << "Colour = " << colours[i] << std::endl << "--------------------------------" << std::endl;
         /*heights[i] = (float)GetRandomValue(1, 12);
         position = (Vector3){ (float)GetRandomValue(-15, 15),
