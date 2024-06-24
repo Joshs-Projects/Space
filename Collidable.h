@@ -39,6 +39,8 @@ public:
     bool checkCollision(BoundingBox toCheckAgainst); //Used for cuboids
     bool checkCollision(Vector3 toCheckAgainst, float radius); //Used for spheres
 
+    virtual int onCollision(BoundingBox box);
+
     Vector3 getCollidableSize(){return collidableSize;};
     Vector3 getCollidablePosition(){return collidablePosition;};
     BoundingBox getBoundingBox(){return objectsCollisionBox;};

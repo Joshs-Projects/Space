@@ -183,3 +183,9 @@ Camera3D Player::getCamera() const{
 CameraMode Player::getCameraMode() const{
     return this->cameraMode;
 }
+
+int Player::onCollision(BoundingBox box) {
+    //Pythagoras
+    std::cout << "Moving to get out of collision!" << std::endl;
+    return 0;
+}

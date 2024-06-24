@@ -100,6 +100,7 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects) {
         //std::cout << "Checking object " << i << std::endl;
         if (player.checkCollision(cuboidObjects[i].getBoundingBox())){
             std::cout << "Collision with object " << i << std::endl;
+            //player.
         }
     }
 

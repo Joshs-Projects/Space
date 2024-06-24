@@ -18,7 +18,7 @@
 #include "Gameplay.h"
 #include "structures.h"
 #include "Cuboid.h"
-
+#include <omp.h>
 
 
 //------------------------------------------------------------------------------------
@@ -26,6 +26,14 @@
 //------------------------------------------------------------------------------------
 int main(void)
 {
+    //Testing OpenMP
+    #pragma omp parallel
+    {
+        int thread_id = omp_get_thread_num();
+        std::cout << "Hello from thread " << thread_id << std::endl;
+    }
+    return 0;
+
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
@@ -47,7 +55,7 @@ int main(void)
     /*float heights[MAX_COLUMNS] = { 0 };
     Vector3 positions[MAX_COLUMNS] = { 0 };
     Color colors[MAX_COLUMNS] = { 0 };*/
-    Color colours[MAX_COLUMNS] = {RED , BROWN, BLUE, PINK, ORANGE};
+    //Color colours[MAX_COLUMNS] = {RED , BROWN, BLUE, PINK, ORANGE};
 
     Vector3 size;
     Vector3 position;
@@ -71,7 +79,8 @@ int main(void)
                           255 };
 
 
-        cuboidObjects.emplace_back(cuboid, size, position, colours[i % MAX_COLUMNS]);
+        //cuboidObjects.emplace_back(cuboid, size, position, colours[i % MAX_COLUMNS]); //Uses specific colour array to help with debugging
+        cuboidObjects.emplace_back(cuboid, size, position, colour);
         //std::cout << "Colour = " << colours[i] << std::endl << "--------------------------------" << std::endl;
         /*heights[i] = (float)GetRandomValue(1, 12);
         position = (Vector3){ (float)GetRandomValue(-15, 15),

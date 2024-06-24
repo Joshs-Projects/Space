@@ -1,43 +1,43 @@
 [
 {
   "directory": "C:/Users/Josh/CLionProjects/Space/cmake-build-debug",
-  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\main.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\main.cpp",
+  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include  -fopenmp -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\main.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\main.cpp",
   "file": "C:\\Users\\Josh\\CLionProjects\\Space\\main.cpp",
   "output": "CMakeFiles\\Space.dir\\main.cpp.obj"
 },
 {
   "directory": "C:/Users/Josh/CLionProjects/Space/cmake-build-debug",
-  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\Title.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\Title.cpp",
+  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include  -fopenmp -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\Title.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\Title.cpp",
   "file": "C:\\Users\\Josh\\CLionProjects\\Space\\Title.cpp",
   "output": "CMakeFiles\\Space.dir\\Title.cpp.obj"
 },
 {
   "directory": "C:/Users/Josh/CLionProjects/Space/cmake-build-debug",
-  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\Gameplay.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\Gameplay.cpp",
+  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include  -fopenmp -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\Gameplay.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\Gameplay.cpp",
   "file": "C:\\Users\\Josh\\CLionProjects\\Space\\Gameplay.cpp",
   "output": "CMakeFiles\\Space.dir\\Gameplay.cpp.obj"
 },
 {
   "directory": "C:/Users/Josh/CLionProjects/Space/cmake-build-debug",
-  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\structures.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\structures.cpp",
+  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include  -fopenmp -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\structures.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\structures.cpp",
   "file": "C:\\Users\\Josh\\CLionProjects\\Space\\structures.cpp",
   "output": "CMakeFiles\\Space.dir\\structures.cpp.obj"
 },
 {
   "directory": "C:/Users/Josh/CLionProjects/Space/cmake-build-debug",
-  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\Player.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\Player.cpp",
+  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include  -fopenmp -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\Player.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\Player.cpp",
   "file": "C:\\Users\\Josh\\CLionProjects\\Space\\Player.cpp",
   "output": "CMakeFiles\\Space.dir\\Player.cpp.obj"
 },
 {
   "directory": "C:/Users/Josh/CLionProjects/Space/cmake-build-debug",
-  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\Collidable.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\Collidable.cpp",
+  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include  -fopenmp -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\Collidable.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\Collidable.cpp",
   "file": "C:\\Users\\Josh\\CLionProjects\\Space\\Collidable.cpp",
   "output": "CMakeFiles\\Space.dir\\Collidable.cpp.obj"
 },
 {
   "directory": "C:/Users/Josh/CLionProjects/Space/cmake-build-debug",
-  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\Cuboid.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\Cuboid.cpp",
+  "command": "C:\\Users\\Josh\\AppData\\Local\\Programs\\CLion\\bin\\mingw\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include  -fopenmp -g -fdiagnostics-color=always -o CMakeFiles\\Space.dir\\Cuboid.cpp.obj -c C:\\Users\\Josh\\CLionProjects\\Space\\Cuboid.cpp",
   "file": "C:\\Users\\Josh\\CLionProjects\\Space\\Cuboid.cpp",
   "output": "CMakeFiles\\Space.dir\\Cuboid.cpp.obj"
 },

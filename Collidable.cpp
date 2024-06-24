@@ -62,3 +62,7 @@ Collidable::Collidable(shapes shape, Vector3 size, Vector3 position){
 
     createBoundingBox();
 }
+
+int Collidable::onCollision(BoundingBox box) {
+    return 0;
+}

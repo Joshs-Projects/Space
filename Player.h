@@ -49,6 +49,8 @@ public:
     [[nodiscard]] Camera3D getCamera() const;
     [[nodiscard]] CameraMode getCameraMode() const;
 
+    int onCollision(BoundingBox box) override;
+
 };
 
 
