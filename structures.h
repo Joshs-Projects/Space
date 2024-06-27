@@ -5,7 +5,7 @@
 #ifndef SPACE_STRUCTURES_H
 #define SPACE_STRUCTURES_H
 
-#define MAX_COLUMNS 5
+#define MAX_COLUMNS 10
 
 enum GameScreen {TITLE, GAMEPLAY, QUIT, PAUSE};
 

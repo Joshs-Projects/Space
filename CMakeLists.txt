@@ -30,6 +30,7 @@ find_package(OpenMP REQUIRED)
 
 if(OpenMP_CXX_FOUND)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    set(ENV{OMP_NUM_THREADS} 8)
     message(NOTICE "OpenMP Found")
 endif()
 message(NOTICE "Was OpenMP Found?")

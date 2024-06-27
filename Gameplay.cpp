@@ -2,7 +2,11 @@
 // Created by Josh on 13/05/2024.
 //
 
+#include <chrono>
+
 #include "Gameplay.h"
+
+#include "omp.h"
 
 
 Gameplay::Gameplay(int screenWidth, int screenHeight) {
@@ -87,22 +91,34 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects) {
     }
 
     player.updateCamera();
-    Vector3 a, b;
-    a = cuboidObjects[0].getBoundingBox().max;
-    b = cuboidObjects[0].getBoundingBox().min;
+    //Vector3 a, b;
+    //a = cuboidObjects[0].getBoundingBox().max;
+    //b = cuboidObjects[0].getBoundingBox().min;
 
-    std::cout << "Max: x=" << a.x << " y=" << a.y << " z=" << a.z << std::endl;
-    std::cout << "Min: x=" << b.x << " y=" << b.y << " z=" << b.z << std::endl;
+    //std::cout << "Max: x=" << a.x << " y=" << a.y << " z=" << a.z << std::endl;
+    //std::cout << "Min: x=" << b.x << " y=" << b.y << " z=" << b.z << std::endl;
 
     //std::cout << "Checking Collisions!" << std::endl;
 
+    auto start = std::chrono::high_resolution_clock::now();
+
+    //#pragma omp parallel for
     for(int i = 0; i < MAX_COLUMNS; i++) {
+        //std::cout << "Thread number " << omp_get_thread_num() << std::endl;
         //std::cout << "Checking object " << i << std::endl;
         if (player.checkCollision(cuboidObjects[i].getBoundingBox())){
             std::cout << "Collision with object " << i << std::endl;
+            player.onCollision(cuboidObjects[i].getBoundingBox());
             //player.
         }
     }
+
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double> duration = end - start;
+
+    // Output the duration in seconds
+    std::cout << "Time taken by the loop: " << duration.count() << " seconds" << std::endl;
 
     //----------------------------------------------------------------------------------
 

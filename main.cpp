@@ -18,7 +18,9 @@
 #include "Gameplay.h"
 #include "structures.h"
 #include "Cuboid.h"
+
 #include <omp.h>
+#include <thread>
 
 
 //------------------------------------------------------------------------------------
@@ -26,14 +28,14 @@
 //------------------------------------------------------------------------------------
 int main(void)
 {
+    //int n = std::thread::hardware_concurrency();
+    //omp_set_num_threads(n);
     //Testing OpenMP
-    #pragma omp parallel
-    {
-        int thread_id = omp_get_thread_num();
-        std::cout << "Hello from thread " << thread_id << std::endl;
-    }
-    return 0;
-
+    //#pragma omp parallel
+    //{
+        int threads = omp_get_num_threads();
+        std::cout << "There are " << threads << " number of threads." << std::endl;
+    //}
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;

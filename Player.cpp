@@ -95,7 +95,26 @@ int Player::updatePosition() {
     setCollisionPosition(position);
     std::cout << "Player Position x= " << position.x <<  " y= " << position.y << " z= " << position.z << std::endl;
     std::cout << "Collision Player Position x= " << position.x <<  "Collision  y= " << position.y << "Collision  z= " << position.z << std::endl;
-    return 0;
+    return 1;
+}
+
+int Player::setPosition(Vector3 newPosition) {
+
+    camera.position.x = newPosition.x;
+    //camera.position.y = newPosition.y;
+    camera.position.z = newPosition.z;
+
+    this->position.x = newPosition.x;
+    //this->position.y = newPosition.y;
+    this->position.z = newPosition.z;
+
+    if (cameraMode != CAMERA_FIRST_PERSON){
+        camera.position.y = newPosition.y;
+        this->position.y = newPosition.y;
+    };
+
+    setCollisionPosition(this->position);
+    return 1;
 }
 
 int Player::updateMovement() {
@@ -184,8 +203,95 @@ CameraMode Player::getCameraMode() const{
     return this->cameraMode;
 }
 
-int Player::onCollision(BoundingBox box) {
+/*int Player::onCollision(BoundingBox collidedWith) {
     //Pythagoras
+    Vector3 distanceToMax, distanceToMin;
+    distanceToMax.x = std::sqrt(collidedWith.max.x * collidedWith.max.x + this->position.x * this->position.x);
+    distanceToMax.y = std::sqrt(collidedWith.max.y * collidedWith.max.y + this->position.y * this->position.y);
+    distanceToMax.z = std::sqrt(collidedWith.max.z * collidedWith.max.z + this->position.z * this->position.z);
+
+    distanceToMin.x = std::sqrt(collidedWith.min.x * collidedWith.min.x + this->position.x * this->position.x);
+    distanceToMin.y = std::sqrt(collidedWith.min.y * collidedWith.min.y + this->position.y * this->position.y);
+    distanceToMin.z = std::sqrt(collidedWith.min.z * collidedWith.min.z + this->position.z * this->position.z);
+
+    float overallDistanceMax = std::sqrt(distanceToMax.x * distanceToMax.x +
+                                         distanceToMax.y * distanceToMax.y +
+                                         distanceToMax.z * distanceToMax.z);
+
+    float overallDistanceMin = std::sqrt(distanceToMin.x * distanceToMin.x +
+                                         distanceToMin.y * distanceToMin.y +
+                                         distanceToMin.z * distanceToMin.z);
+
+    Vector3 newPosition;
+
+    //Doesnt handle equidistance possible bug
+    if (overallDistanceMax < overallDistanceMin) {
+        if (distanceToMax.x < distanceToMax.y && distanceToMax.x < distanceToMax.z){
+            newPosition.x = this->position.x - distanceToMax.x;
+        } else if (distanceToMax.y < distanceToMax.x && distanceToMax.y < distanceToMax.z){
+            newPosition.y = this->position.y - distanceToMax.y;
+        } else if (distanceToMax.z < distanceToMax.x && distanceToMax.z < distanceToMax.y){
+            newPosition.z = this->position.z - distanceToMax.z;
+        }
+    } else if (overallDistanceMin < overallDistanceMax) {
+        if (distanceToMin.x < distanceToMin.y && distanceToMin.x < distanceToMin.z){
+            newPosition.x = this->position.x - distanceToMin.x;
+        } else if (distanceToMin.y < distanceToMin.x && distanceToMin.y < distanceToMin.z){
+            newPosition.y = this->position.y - distanceToMin.y;
+        } else if (distanceToMin.z < distanceToMin.x && distanceToMin.z < distanceToMin.y){
+            newPosition.z = this->position.z - distanceToMin.z;
+        }
+    }
+
+    setPosition(newPosition);
+
     std::cout << "Moving to get out of collision!" << std::endl;
     return 0;
+}*/
+
+int Player::onCollision(BoundingBox collidedWith) {
+    //Determine the Overlap per axis
+    float overlapX = std::min(collidedWith.max.x, getBoundingBox().max.x) -
+                     std::min(collidedWith.min.x, getBoundingBox().min.x);
+
+    float overlapY = std::min(collidedWith.max.y, getBoundingBox().max.y) -
+                     std::min(collidedWith.min.y, getBoundingBox().min.y);
+
+    float overlapZ = std::min(collidedWith.max.z, getBoundingBox().max.z) -
+                     std::min(collidedWith.min.z, getBoundingBox().min.z);
+
+    //Determine the MTV (Minimum Translation Vector)
+    Vector3 MTV;
+    if (overlapX < overlapY && overlapX < overlapZ) {
+        // Resolve along the x-axis
+        if (collidedWith.min.x < getBoundingBox().min.x) {
+            MTV = {-overlapX, 0, 0};
+        } else {
+            MTV = {overlapX, 0, 0};
+        }
+    } else if (overlapY < overlapZ) {
+        // Resolve along the y-axis
+        if (collidedWith.min.y < getBoundingBox().min.y) {
+            MTV = {0, -overlapY, 0};
+        } else {
+            MTV = {0, overlapY, 0};
+        }
+    } else {
+        // Resolve along the z-axis
+        if (collidedWith.min.z < getBoundingBox().min.z) {
+            MTV = {0, 0, -overlapZ};
+        } else {
+            MTV = {0, 0, overlapZ};
+        }
+    }
+
+    Vector3 newPosition;
+    newPosition.x = newPosition.x + MTV.x;
+    newPosition.y = newPosition.y + MTV.y;
+    newPosition.z = newPosition.z + MTV.z;
+
+    setPosition(newPosition);
+
+    return 1;
+
 }

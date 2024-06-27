@@ -7,7 +7,9 @@
 
 #include "raylib.h"
 #include "rcamera.h"
-#include "iostream"
+
+#include <iostream>
+#include <cmath>
 
 #include "Collidable.h"
 
@@ -27,6 +29,7 @@ private:
     Vector3 size;
 
     int updatePosition();
+    int setPosition(Vector3 newPosition);
     int updateMovement();
     int updateRotation();
     int updateZoom();
