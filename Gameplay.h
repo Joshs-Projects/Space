@@ -13,6 +13,8 @@
 #include "structures.h"
 #include "player.h"
 #include "Cuboid.h"
+#include "Developer_Tools/Developer_Tools.h"
+
 #include "vector"
 
 
@@ -28,7 +30,10 @@ private:
 
     bool tethered;
      */
-    bool drawDeveloperTools;
+
+    Developer_Tools::Developer_Tools devTools = Developer_Tools::Developer_Tools(true);
+
+    //bool drawDeveloperTools;
 
     // This needs some work to get the player position and camera. Probably just include setting this in constructor
     Player player = Player(cuboid, (Vector3){1, 5, 1}, (Vector3){ 0.0f, 2.0f, 4.0f });

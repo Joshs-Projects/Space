@@ -17,7 +17,10 @@ Gameplay::Gameplay(int screenWidth, int screenHeight) {
 
     //player = Player(cuboid, Vector3(), Vector3());
 
-    this->drawDeveloperTools = true;
+    //Change this to true or false to access developer tools
+    //Developer_Tools::Developer_Tools devTools = new Developer_Tools::Developer_Tools(true);
+
+
 }
 
 //GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLUMNS], Color colours[MAX_COLUMNS]) {
@@ -46,7 +49,8 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects) {
     }
 
     if (IsKeyPressed(96)) {
-        drawDeveloperTools = !drawDeveloperTools;
+        devTools.flipDevTools();
+        //drawDeveloperTools = !drawDeveloperTools;
     }
 
     // Switch camera projection
@@ -160,6 +164,11 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects) {
 
     EndMode3D();
 
+    devTools.Draw_Developer_Tools(player, currentScreenWidth, currentScreenHeight);
+
+    EndDrawing();
+
+    /*
     if (drawDeveloperTools) {
         // Draw info boxes
         DrawRectangle(5, 5, 330, 100, Fade(SKYBLUE, 0.5f));
@@ -198,8 +207,9 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects) {
                  currentScreenWidth - 190, 150, 10, BLACK);
         DrawText(TextFormat("- Tethered: (%d)", player.getIfTethered()), currentScreenWidth - 190, 165, 10, BLACK);
     }
+     */
 
-    EndDrawing();
+    //EndDrawing();
 
     return GAMEPLAY;
 }

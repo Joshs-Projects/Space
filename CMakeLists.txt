@@ -50,6 +50,8 @@ add_executable(${PROJECT_NAME} main.cpp
         Collidable.h
         Cuboid.cpp
         Cuboid.h
+        Developer_Tools/Developer_Tools.cpp
+        Developer_Tools/Developer_Tools.h
 )
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)
