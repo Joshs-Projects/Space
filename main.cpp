@@ -51,7 +51,15 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "Space");
 
+    Image icon = LoadImage("icon.png");
+
+    SetWindowIcon(icon);
+
+    UnloadImage(icon);
+
+
     std::vector<Cuboid> cuboidObjects = {};
+    std::vector<Matrix> rotationMatrices = {};
 
     // Generates some random columns
     /*float heights[MAX_COLUMNS] = { 0 };
@@ -65,6 +73,9 @@ int main(void)
 
     for (int i = 0; i < MAX_COLUMNS; i++)
     {
+        //Matrix rotationMatrices = MatrixRotateXYZ((Vector3){ (float)GetTime() * 1.0f, (float)GetTime() * 1.0f, 0.0f });
+
+
         size = (Vector3) {
             2.0f,
             (float)GetRandomValue(1, 12),
