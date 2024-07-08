@@ -43,12 +43,30 @@ int Collidable::setCollisionPosition(Vector3 position){
     return 1;
 }
 
+int Collidable::setCollisionRotation(Matrix rotation){
+    this->collidableRotation = rotation;
+    return 1;
+}
+
 bool Collidable::checkCollision(BoundingBox toCheckAgainst) {
     return checkCuboidCollision(toCheckAgainst);
 }
 
 bool Collidable::checkCollision(Vector3 toCheckAgainst, float radius) {
     return checkSphereCollision(toCheckAgainst, radius);
+}
+
+Collidable::Collidable(shapes shape, Vector3 size, Vector3 position, Matrix rotation){
+    std::cout << "Inisitilising Collisions" << std::endl;
+    setCollisionShape(shape);
+    setCollisionSize(size);
+    setCollisionPosition(position);
+    setCollisionRotation(rotation);
+
+    std::cout << "shape " << shape << " size: x=" << size.x << " y=" << size.y << " z=" << size.z <<
+    " position: x=" << position.x << " y=" << position.y << " z=" << position.z << std::endl;
+
+    createBoundingBox();
 }
 
 Collidable::Collidable(shapes shape, Vector3 size, Vector3 position){
@@ -58,7 +76,7 @@ Collidable::Collidable(shapes shape, Vector3 size, Vector3 position){
     setCollisionPosition(position);
 
     std::cout << "shape " << shape << " size: x=" << size.x << " y=" << size.y << " z=" << size.z <<
-    " position: x=" << position.x << " y=" << position.y << " z=" << position.z << std::endl;
+              " position: x=" << position.x << " y=" << position.y << " z=" << position.z << std::endl;
 
     createBoundingBox();
 }

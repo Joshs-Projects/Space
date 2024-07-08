@@ -2,11 +2,7 @@
 // Created by Josh on 13/05/2024.
 //
 
-#include <chrono>
-
 #include "Gameplay.h"
-
-#include "omp.h"
 
 
 Gameplay::Gameplay(int screenWidth, int screenHeight) {
@@ -24,7 +20,7 @@ Gameplay::Gameplay(int screenWidth, int screenHeight) {
 }
 
 //GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLUMNS], Color colours[MAX_COLUMNS]) {
-GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects) {
+GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects, std::vector<Matrix> rotationMatrices) {
     // Update
     //----------------------------------------------------------------------------------
     // Switch camera mode
@@ -135,6 +131,8 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects) {
     //BeginMode3D(camera);
     BeginMode3D(player.getCamera());
 
+    //DrawGrid(2000, 2);
+
     //Draws the walls and the floor
     DrawPlane((Vector3){ 0.0f, 0.0f, 0.0f }, (Vector2){ 32.0f, 32.0f }, LIGHTGRAY); // Draw ground
     DrawCube((Vector3){ -16.0f, 2.5f, 0.0f }, 1.0f, 5.0f, 32.0f, BLUE);     // Draw a blue wall
@@ -148,12 +146,17 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects) {
         //DrawCube(positions[i], 2.0f, heights[i], 2.0f, colours[i]);
         //DrawCubeWires(positions[i], 2.0f, heights[i], 2.0f, MAROON);
 
+        rlPushMatrix();
+        rlMultMatrixf(MatrixToFloat(rotationMatrices[i]));
+
         DrawCube(cuboidObjects[i].getCollidablePosition(), cuboidObjects[i].getCollidableSize().z,
                  cuboidObjects[i].getCollidableSize().y, cuboidObjects[i].getCollidableSize().x,
                  cuboidObjects[i].getColour());
         DrawCubeWires(cuboidObjects[i].getCollidablePosition(), cuboidObjects[i].getCollidableSize().z,
                       cuboidObjects[i].getCollidableSize().y, cuboidObjects[i].getCollidableSize().x,
                       MAROON);
+
+        rlPopMatrix();
     }
 
     if (player.getCameraMode() == CAMERA_THIRD_PERSON)

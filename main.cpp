@@ -13,6 +13,7 @@
 
 #include "raylib.h"
 #include "rcamera.h"
+#include "raymath.h"
 
 #include "Title.h"
 #include "Gameplay.h"
@@ -20,7 +21,6 @@
 #include "Cuboid.h"
 
 #include <omp.h>
-#include <thread>
 
 
 //------------------------------------------------------------------------------------
@@ -73,9 +73,6 @@ int main(void)
 
     for (int i = 0; i < MAX_COLUMNS; i++)
     {
-        //Matrix rotationMatrices = MatrixRotateXYZ((Vector3){ (float)GetTime() * 1.0f, (float)GetTime() * 1.0f, 0.0f });
-
-
         size = (Vector3) {
             2.0f,
             (float)GetRandomValue(1, 12),
@@ -91,9 +88,22 @@ int main(void)
                           30,
                           255 };
 
+        //Matrix rotationMatrices =
+        //Matrix rotMat = MatrixRotateXYZ((Vector3){ (float)GetTime() * (float)GetRandomValue(0, 1), 0.0f, (float)GetTime() * (float)GetRandomValue(0, 1) });
+        Matrix matRotation = MatrixRotateXYZ((Vector3){ 0.0f, (float)GetTime() * (float)GetRandomValue(0, 1), 0.0f });
+
+        Matrix matTranslateToOrigin = MatrixTranslate(-position.x, -position.y, -position.z);
+        Matrix matTranslateBack = MatrixTranslate(position.x, position.y, position.z);
+
+        // Combine translation and rotation
+        Matrix matTransform = MatrixMultiply(MatrixMultiply(matTranslateToOrigin, matRotation), matTranslateBack);
+
+        //Lets try to rotate a cube.
+        rotationMatrices.emplace_back(matTransform);
+
 
         //cuboidObjects.emplace_back(cuboid, size, position, colours[i % MAX_COLUMNS]); //Uses specific colour array to help with debugging
-        cuboidObjects.emplace_back(cuboid, size, position, colour);
+        cuboidObjects.emplace_back(cuboid, size, position, matRotation, colour);
         //std::cout << "Colour = " << colours[i] << std::endl << "--------------------------------" << std::endl;
         /*heights[i] = (float)GetRandomValue(1, 12);
         position = (Vector3){ (float)GetRandomValue(-15, 15),
@@ -122,7 +132,7 @@ int main(void)
             case GAMEPLAY:
             {
                 //currentScreen = gameplay.Loop(positions, heights, colors);
-                currentScreen = gameplay.Loop(cuboidObjects);
+                currentScreen = gameplay.Loop(cuboidObjects, rotationMatrices);
                 break;
             }
             case QUIT:

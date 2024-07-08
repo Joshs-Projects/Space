@@ -7,15 +7,19 @@
 
 #include "raylib.h"
 #include "rcamera.h"
+#include "raymath.h"
+#include "rlgl.h"
 
 #include <iostream>
+#include <chrono>
+#include <vector>
 
 #include "structures.h"
 #include "player.h"
 #include "Cuboid.h"
 #include "Developer_Tools/Developer_Tools.h"
 
-#include "vector"
+#include "omp.h"
 
 
 class Gameplay {
@@ -41,7 +45,7 @@ private:
 public:
     Gameplay(int screenWidth, int screenHeight);
     //GameScreen Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLUMNS], Color colours[MAX_COLUMNS]);
-    GameScreen Loop(std::vector<Cuboid> cuboidObjects);
+    GameScreen Loop(std::vector<Cuboid> cuboidObjects, std::vector<Matrix> rotationMatrices);
 };
 
 

@@ -285,7 +285,10 @@ int Player::onCollision(BoundingBox collidedWith) {
         }
     }
 
-    Vector3 newPosition;
+    Vector3 newPosition = position;
+
+    //newPosition = position;
+
     newPosition.x = newPosition.x + MTV.x;
     newPosition.y = newPosition.y + MTV.y;
     newPosition.z = newPosition.z + MTV.z;

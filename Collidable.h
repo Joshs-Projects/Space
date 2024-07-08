@@ -7,6 +7,7 @@
 
 
 #include "raylib.h"
+#include "raymath.h"
 
 #include <iostream>
 
@@ -19,6 +20,7 @@ class Collidable {
 private:
     Vector3 collidableSize;
     Vector3 collidablePosition;
+    Matrix collidableRotation;
 
     BoundingBox objectsCollisionBox;
 
@@ -30,11 +32,13 @@ private:
     shapes shape;
 
 public:
+    Collidable(shapes shape, Vector3 size, Vector3 position, Matrix rotation);
     Collidable(shapes shape, Vector3 size, Vector3 position);
 
     int setCollisionShape(shapes shape);
     int setCollisionSize(Vector3 size);
     int setCollisionPosition(Vector3 position);
+    int setCollisionRotation(Matrix rotation);
 
     bool checkCollision(BoundingBox toCheckAgainst); //Used for cuboids
     bool checkCollision(Vector3 toCheckAgainst, float radius); //Used for spheres

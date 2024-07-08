@@ -13,7 +13,7 @@ private:
     Color colour = RED;
 
 public:
-    Cuboid(shapes shape, Vector3 size, Vector3 position, Color colour);
+    Cuboid(shapes shape, Vector3 size, Vector3 position, Matrix rotation, Color colour);
 
     int draw();
 

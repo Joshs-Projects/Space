@@ -4,7 +4,7 @@
 
 #include "Cuboid.h"
 
-Cuboid::Cuboid(shapes shape, Vector3 size, Vector3 position, Color colour) : Collidable(shape, size, position) {
+Cuboid::Cuboid(shapes shape, Vector3 size, Vector3 position, Matrix rotation, Color colour) : Collidable(shape, size, position, rotation) {
     this->colour = colour;
 }
 
