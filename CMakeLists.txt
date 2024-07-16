@@ -52,6 +52,8 @@ add_executable(${PROJECT_NAME} main.cpp
         Cuboid.h
         Developer_Tools/Developer_Tools.cpp
         Developer_Tools/Developer_Tools.h
+        Developer_Tools/Logging.cpp
+        Developer_Tools/Logging.h
 )
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)

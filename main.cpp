@@ -20,6 +20,8 @@
 #include "structures.h"
 #include "Cuboid.h"
 
+#include "Developer_Tools/Logging.h"
+
 #include <omp.h>
 
 
@@ -119,6 +121,8 @@ int main(void)
 
     SetTargetFPS(120);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
+
+    Developer_Tools::Logging::getInstance().log(false, "main", "main", "Entering the main game loop");
 
     // Main game loop
     while (currentScreen != QUIT)        // Detect window close button or ESC key

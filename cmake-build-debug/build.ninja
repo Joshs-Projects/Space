@@ -113,6 +113,14 @@ build CMakeFiles/Space.dir/Developer_Tools/Developer_Tools.cpp.obj: CXX_COMPILER
   OBJECT_DIR = CMakeFiles\Space.dir
   OBJECT_FILE_DIR = CMakeFiles\Space.dir\Developer_Tools
 
+build CMakeFiles/Space.dir/Developer_Tools/Logging.cpp.obj: CXX_COMPILER__Space_unscanned_Debug C$:/Users/Josh/CLionProjects/Space/Developer_Tools/Logging.cpp || cmake_object_order_depends_target_Space
+  DEFINES = -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP
+  DEP_FILE = CMakeFiles\Space.dir\Developer_Tools\Logging.cpp.obj.d
+  FLAGS = -fopenmp -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src -IC:/Users/Josh/CLionProjects/Space/cmake-build-debug/_deps/raylib-src/src/external/glfw/include
+  OBJECT_DIR = CMakeFiles\Space.dir
+  OBJECT_FILE_DIR = CMakeFiles\Space.dir\Developer_Tools
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Space
@@ -121,7 +129,7 @@ build CMakeFiles/Space.dir/Developer_Tools/Developer_Tools.cpp.obj: CXX_COMPILER
 #############################################
 # Link the executable Space.exe
 
-build Space.exe: CXX_EXECUTABLE_LINKER__Space_Debug CMakeFiles/Space.dir/main.cpp.obj CMakeFiles/Space.dir/Title.cpp.obj CMakeFiles/Space.dir/Gameplay.cpp.obj CMakeFiles/Space.dir/structures.cpp.obj CMakeFiles/Space.dir/Player.cpp.obj CMakeFiles/Space.dir/Collidable.cpp.obj CMakeFiles/Space.dir/Cuboid.cpp.obj CMakeFiles/Space.dir/Developer_Tools/Developer_Tools.cpp.obj | _deps/raylib-build/raylib/libraylib.a _deps/raylib-build/raylib/external/glfw/src/libglfw3.a || _deps/raylib-build/raylib/external/glfw/src/libglfw3.a _deps/raylib-build/raylib/libraylib.a
+build Space.exe: CXX_EXECUTABLE_LINKER__Space_Debug CMakeFiles/Space.dir/main.cpp.obj CMakeFiles/Space.dir/Title.cpp.obj CMakeFiles/Space.dir/Gameplay.cpp.obj CMakeFiles/Space.dir/structures.cpp.obj CMakeFiles/Space.dir/Player.cpp.obj CMakeFiles/Space.dir/Collidable.cpp.obj CMakeFiles/Space.dir/Cuboid.cpp.obj CMakeFiles/Space.dir/Developer_Tools/Developer_Tools.cpp.obj CMakeFiles/Space.dir/Developer_Tools/Logging.cpp.obj | _deps/raylib-build/raylib/libraylib.a _deps/raylib-build/raylib/external/glfw/src/libglfw3.a || _deps/raylib-build/raylib/external/glfw/src/libglfw3.a _deps/raylib-build/raylib/libraylib.a
   FLAGS = -fopenmp -g
   LINK_LIBRARIES = _deps/raylib-build/raylib/libraylib.a  -lopengl32  -lglu32  -lwinmm  _deps/raylib-build/raylib/external/glfw/src/libglfw3.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Space.dir
