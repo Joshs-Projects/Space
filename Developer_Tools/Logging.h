@@ -31,8 +31,8 @@ namespace Developer_Tools {
             return instance;
         }
 
-        Logging(Logging const&) = delete;
-        void operator=(const Logging&) = delete;
+        Logging(Logging const&) = delete;           //Prevents the C++ default copy constructor that copies the logger into a new logger object by deleting the constructor
+        void operator=(const Logging&) = delete;    //Prevents the C++ default copy assignment operator that copies the logger values into a new logger object by deleting the copy assignment operator
 
 
 
