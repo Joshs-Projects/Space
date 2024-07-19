@@ -48,6 +48,7 @@ int Collidable::setCollisionRotation(Matrix rotation){
     return 1;
 }
 
+// Overloaded checkCollision, so it smartly decides what type of collision may be occurring by the parameters passed in to it.
 bool Collidable::checkCollision(BoundingBox toCheckAgainst) {
     return checkCuboidCollision(toCheckAgainst);
 }
