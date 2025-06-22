@@ -3,9 +3,11 @@
 //
 
 #include "Gameplay.h"
-
+#include "Developer_Tools/LoggerMacros.h"
+#include "Developer_Tools/Logger.h"
 
 Gameplay::Gameplay(int screenWidth, int screenHeight) {
+    LOG_ENTRY();
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
     currentScreenWidth = screenWidth;
@@ -16,7 +18,7 @@ Gameplay::Gameplay(int screenWidth, int screenHeight) {
     //Change this to true or false to access developer tools
     //Developer_Tools::Developer_Tools devTools = new Developer_Tools::Developer_Tools(true);
 
-
+    LOG_EXIT();
 }
 
 //GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLUMNS], Color colours[MAX_COLUMNS]) {
@@ -26,22 +28,27 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects, std::vector<Matrix>
     // Switch camera mode
     if (IsKeyPressed(KEY_ONE)) {
         player.changeToFreeCam();
+        LOG_INFO("Changing to free cam");
     }
 
     if (IsKeyPressed(KEY_TWO)) {
         player.changeToFirstPerson();
+        LOG_INFO("Changing to first person");
     }
 
     if (IsKeyPressed(KEY_THREE)) {
         player.changeToThirdPerson();
+        LOG_INFO("Changing to third person");
     }
 
     if (IsKeyPressed(KEY_FOUR)) {
         player.changeToOrbital();
+        LOG_INFO("Changing to orbital camera");
     }
 
     if (IsKeyPressed(KEY_FIVE)) {
         player.changeIfTethered();
+        LOG_INFO("Toggled Tethered");
     }
 
     if (IsKeyPressed(96)) {
@@ -52,6 +59,7 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects, std::vector<Matrix>
     // Switch camera projection
     if (IsKeyPressed(KEY_P)) {
         player.switchCameraPerspective();
+        LOG_INFO("Switch camera perspective");
     }
 
     // Switch To Full Screen
@@ -77,6 +85,8 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects, std::vector<Matrix>
             SetWindowSize(currentScreenWidth, currentScreenHeight);
             ToggleFullscreen();
         }
+
+        LOG_INFO("Toggling Fullscreen");
 
         //Toggle Fullscreen
 
