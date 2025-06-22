@@ -128,7 +128,7 @@ int main()
     //--------------------------------------------------------------------------------------
 
     LOG_INFO("Entering the main game loop.");
-
+    bool firstDraw = true;
     // Main game loop
     while (currentScreen != QUIT)        // Detect window close button or ESC key
     {
@@ -141,7 +141,8 @@ int main()
             case GAMEPLAY:
             {
                 //currentScreen = gameplay.Loop(positions, heights, colors);
-                currentScreen = gameplay.Loop(cuboidObjects, rotationMatrices);
+                currentScreen = gameplay.Loop(cuboidObjects, rotationMatrices, firstDraw);
+                firstDraw = false;
                 break;
             }
             case QUIT:

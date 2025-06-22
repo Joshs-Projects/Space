@@ -21,13 +21,15 @@
 
 #include "omp.h"
 
-
 class Gameplay {
 private:
     int screenWidth;
     int screenHeight;
     int currentScreenWidth;
     int currentScreenHeight;
+
+    std::chrono::time_point<std::chrono::system_clock, std::chrono::duration<double>> startOfDrawing;
+    std::chrono::time_point<std::chrono::system_clock, std::chrono::duration<double>> lastStartOfDrawing;
 
     /*Camera camera;
     int cameraMode;
@@ -45,7 +47,7 @@ private:
 public:
     Gameplay(int screenWidth, int screenHeight);
     //GameScreen Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLUMNS], Color colours[MAX_COLUMNS]);
-    GameScreen Loop(std::vector<Cuboid> cuboidObjects, std::vector<Matrix> rotationMatrices);
+    GameScreen Loop(std::vector<Cuboid> cuboidObjects, std::vector<Matrix> rotationMatrices, bool firstDraw);
 };
 
 

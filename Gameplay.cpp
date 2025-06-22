@@ -22,7 +22,7 @@ Gameplay::Gameplay(int screenWidth, int screenHeight) {
 }
 
 //GameScreen Gameplay::Loop(Vector3 positions[MAX_COLUMNS], float heights[MAX_COLUMNS], Color colours[MAX_COLUMNS]) {
-GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects, std::vector<Matrix> rotationMatrices) {
+GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects, std::vector<Matrix> rotationMatrices, bool firstDraw) {
     // Update
     //----------------------------------------------------------------------------------
     // Switch camera mode
@@ -51,7 +51,8 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects, std::vector<Matrix>
         LOG_INFO("Toggled Tethered");
     }
 
-    if (IsKeyPressed(96)) {
+    //Grave key = `
+    if (IsKeyPressed(KEY_GRAVE)) {
         devTools.flipDevTools();
         //drawDeveloperTools = !drawDeveloperTools;
     }
@@ -87,9 +88,6 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects, std::vector<Matrix>
         }
 
         LOG_INFO("Toggling Fullscreen");
-
-        //Toggle Fullscreen
-
     }
 
     if (IsKeyPressed(KEY_ESCAPE)) {
@@ -101,14 +99,6 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects, std::vector<Matrix>
     }
 
     player.updateCamera();
-    //Vector3 a, b;
-    //a = cuboidObjects[0].getBoundingBox().max;
-    //b = cuboidObjects[0].getBoundingBox().min;
-
-    //std::cout << "Max: x=" << a.x << " y=" << a.y << " z=" << a.z << std::endl;
-    //std::cout << "Min: x=" << b.x << " y=" << b.y << " z=" << b.z << std::endl;
-
-    //std::cout << "Checking Collisions!" << std::endl;
 
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -134,53 +124,64 @@ GameScreen Gameplay::Loop(std::vector<Cuboid> cuboidObjects, std::vector<Matrix>
 
     // Draw
     //----------------------------------------------------------------------------------
-    BeginDrawing();
-
-    ClearBackground(RAYWHITE);
-
-    //BeginMode3D(camera);
-    BeginMode3D(player.getCamera());
-
-    //DrawGrid(2000, 2);
-
-    //Draws the walls and the floor
-    DrawPlane((Vector3){ 0.0f, 0.0f, 0.0f }, (Vector2){ 32.0f, 32.0f }, LIGHTGRAY); // Draw ground
-    DrawCube((Vector3){ -16.0f, 2.5f, 0.0f }, 1.0f, 5.0f, 32.0f, BLUE);     // Draw a blue wall
-    DrawCube((Vector3){ 16.0f, 2.5f, 0.0f }, 1.0f, 5.0f, 32.0f, LIME);      // Draw a green wall
-    DrawCube((Vector3){ 0.0f, 2.5f, 16.0f }, 32.0f, 5.0f, 1.0f, GOLD);      // Draw a yellow wall
-    DrawCube((Vector3){ 0.0f, 2.5f, -16.0f }, 32.0f, 5.0f, 1.0f, PINK);      // Draw a yellow wall
-
-    // Draw some cubes around
-    for (int i = 0; i < MAX_COLUMNS; i++)
-    {
-        //DrawCube(positions[i], 2.0f, heights[i], 2.0f, colours[i]);
-        //DrawCubeWires(positions[i], 2.0f, heights[i], 2.0f, MAROON);
-
-        rlPushMatrix();
-        rlMultMatrixf(MatrixToFloat(rotationMatrices[i]));
-
-        DrawCube(cuboidObjects[i].getCollidablePosition(), cuboidObjects[i].getCollidableSize().z,
-                 cuboidObjects[i].getCollidableSize().y, cuboidObjects[i].getCollidableSize().x,
-                 cuboidObjects[i].getColour());
-        DrawCubeWires(cuboidObjects[i].getCollidablePosition(), cuboidObjects[i].getCollidableSize().z,
-                      cuboidObjects[i].getCollidableSize().y, cuboidObjects[i].getCollidableSize().x,
-                      MAROON);
-
-        rlPopMatrix();
+    if (firstDraw) {
+        lastStartOfDrawing = std::chrono::high_resolution_clock::now();
     }
 
-    if (player.getCameraMode() == CAMERA_THIRD_PERSON)
-    {
-        DrawCube(player.getCamera().target, 0.5f, 0.5f, 0.5f, PURPLE);
-        DrawCubeWires(player.getCamera().target, 0.5f, 0.5f, 0.5f, DARKPURPLE);
+    startOfDrawing = std::chrono::high_resolution_clock::now();
+
+    duration = startOfDrawing - lastStartOfDrawing;
+
+    // If the time between frames is greater than 0.05 seconds then draw a new frame
+    std::cout << "Time between frames: " << duration.count() << std::endl;
+    if (duration.count() > 0.001) {
+        lastStartOfDrawing = startOfDrawing;
+
+        BeginDrawing();
+
+        ClearBackground(RAYWHITE);
+
+        //BeginMode3D(camera);
+        BeginMode3D(player.getCamera());
+
+        //DrawGrid(2000, 2);
+
+        //Draws the walls and the floor
+        DrawPlane((Vector3) {0.0f, 0.0f, 0.0f}, (Vector2) {32.0f, 32.0f}, LIGHTGRAY); // Draw ground
+        DrawCube((Vector3) {-16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, BLUE);     // Draw a blue wall
+        DrawCube((Vector3) {16.0f, 2.5f, 0.0f}, 1.0f, 5.0f, 32.0f, LIME);      // Draw a green wall
+        DrawCube((Vector3) {0.0f, 2.5f, 16.0f}, 32.0f, 5.0f, 1.0f, GOLD);      // Draw a yellow wall
+        DrawCube((Vector3) {0.0f, 2.5f, -16.0f}, 32.0f, 5.0f, 1.0f, PINK);      // Draw a yellow wall
+
+        // Draw some cubes around
+        for (int i = 0; i < MAX_COLUMNS; i++) {
+            //DrawCube(positions[i], 2.0f, heights[i], 2.0f, colours[i]);
+            //DrawCubeWires(positions[i], 2.0f, heights[i], 2.0f, MAROON);
+
+            rlPushMatrix();
+            rlMultMatrixf(MatrixToFloat(rotationMatrices[i]));
+
+            DrawCube(cuboidObjects[i].getCollidablePosition(), cuboidObjects[i].getCollidableSize().z,
+                     cuboidObjects[i].getCollidableSize().y, cuboidObjects[i].getCollidableSize().x,
+                     cuboidObjects[i].getColour());
+            DrawCubeWires(cuboidObjects[i].getCollidablePosition(), cuboidObjects[i].getCollidableSize().z,
+                          cuboidObjects[i].getCollidableSize().y, cuboidObjects[i].getCollidableSize().x,
+                          MAROON);
+
+            rlPopMatrix();
+        }
+
+        if (player.getCameraMode() == CAMERA_THIRD_PERSON) {
+            DrawCube(player.getCamera().target, 0.5f, 0.5f, 0.5f, PURPLE);
+            DrawCubeWires(player.getCamera().target, 0.5f, 0.5f, 0.5f, DARKPURPLE);
+        }
+
+        EndMode3D();
+
+        devTools.Draw_Developer_Tools(player, currentScreenWidth, currentScreenHeight);
+
+        EndDrawing();
     }
-
-    EndMode3D();
-
-    devTools.Draw_Developer_Tools(player, currentScreenWidth, currentScreenHeight);
-
-    EndDrawing();
-
     /*
     if (drawDeveloperTools) {
         // Draw info boxes

@@ -296,5 +296,4 @@ int Player::onCollision(BoundingBox collidedWith) {
     setPosition(newPosition);
 
     return 1;
-
 }

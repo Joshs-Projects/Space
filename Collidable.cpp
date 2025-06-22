@@ -58,7 +58,7 @@ bool Collidable::checkCollision(Vector3 toCheckAgainst, float radius) {
 }
 
 Collidable::Collidable(shapes shape, Vector3 size, Vector3 position, Matrix rotation){
-    std::cout << "Inisitilising Collisions" << std::endl;
+    std::cout << "Initialising Collisions with rotation" << std::endl;
     setCollisionShape(shape);
     setCollisionSize(size);
     setCollisionPosition(position);
@@ -71,7 +71,7 @@ Collidable::Collidable(shapes shape, Vector3 size, Vector3 position, Matrix rota
 }
 
 Collidable::Collidable(shapes shape, Vector3 size, Vector3 position){
-    std::cout << "Inisitilising Collisions" << std::endl;
+    std::cout << "Initialising Collisions" << std::endl;
     setCollisionShape(shape);
     setCollisionSize(size);
     setCollisionPosition(position);
